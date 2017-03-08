@@ -2,6 +2,7 @@
 title: "Lab 3 Linear Regression"
 output: html_notebook
 ---
+#Linear Regression Lab
 
 ```{r}
 #load library
@@ -29,4 +30,94 @@ summary(lm.fit)
 ##Coefficients
 ```{r}
 coef(lm.fit) #lm.fit$coefficients
+```
+
+##Confidence Interval
+```{r}
+confint(lm.fit)
+```
+
+##Predict for medv
+```{r}
+predict(lm.fit,data.frame(lstat=c(5,10,15)),interval="confidence")
+```
+
+##Plot
+```{r}
+plot(lstat,medv)
+abline(lm.fit)
+```
+
+##Further plots
+I will not test further plot() cause in industry we always use packages like 'ggplot2'
+
+#Multiple Linear Regression
+```{r}
+lm.fit=lm(medv~lstat+age,data=Boston)
+summary(lm.fit)
+```
+
+##With all vars
+```{r}
+lm.fit=lm(medv~.,data=Boston)
+summary(lm.fit)
+```
+
+##Variance Inflation Factor
+```{r}
+library(car)
+vif(lm.fit)
+```
+
+##Elim age since p is too high
+```{r}
+lm.fit1=lm(medv~.-age,data=Boston)
+summary(lm.fit1)
+```
+
+##Interaction terms
+```{r}
+summary(lm(medv~lstat*age,data=Boston))
+```
+
+##Non-Linear transformation
+```{r}
+lm.fit2=lm(medv~lstat+I(lstat^2))
+summary(lm.fit2)
+```
+
+##Compare the importance of quadratic term
+```{r}
+lm.fit=lm(medv~lstat)
+anova(lm.fit, lm.fit2)
+```
+
+##Plot
+```{r}
+par(mfrow=c(2,2))
+plot(lm.fit2)
+```
+
+##^5 fit
+```{r}
+lm.fit5=lm(medv~poly(lstat,5))
+summary(lm.fit5)
+```
+
+##Log transformation
+```{r}
+summary(lm(medv~log(rm),data=Boston))
+```
+
+#Qualitive Predictors
+```{r}
+fix(Carseats)
+names(Carseats)
+attach(Carseats)
+```
+
+##Go with it
+```{r}
+lm.fit=lm(Sales~.+Income:Advertising+Price:Age,data=Carseats)
+summary(lm.fit)
 ```
