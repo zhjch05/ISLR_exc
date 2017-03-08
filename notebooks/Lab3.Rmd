@@ -1,0 +1,32 @@
+---
+title: "Lab 3 Linear Regression"
+output: html_notebook
+---
+
+```{r}
+#load library
+library(MASS)
+library(ISLR)
+```
+
+```{r}
+fix(Boston)
+names(Boston)
+```
+##Linear model with lm()
+```{r}
+#lm.fit=lm(medv~lstat,data=Boston)
+attach(Boston)
+lm.fit=lm(medv~lstat)
+lm.fit
+```
+
+##Get summary
+```{r}
+summary(lm.fit)
+```
+
+##Coefficients
+```{r}
+coef(lm.fit) #lm.fit$coefficients
+```
